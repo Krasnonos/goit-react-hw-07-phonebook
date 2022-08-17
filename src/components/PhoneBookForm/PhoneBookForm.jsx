@@ -1,5 +1,9 @@
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import { toast } from 'react-toastify';
+import {
+  useAddContactMutation,
+  useGetContactsQuery,
+} from '../../redux/contactsApi';
 import {
   FormBox,
   InputName,
@@ -7,7 +11,28 @@ import {
   SubmitBtn,
 } from './PhoneBookForm.styled';
 
-export const PhoneBookForm = ({ submitForm }) => {
+export const PhoneBookForm = () => {
+  const [addContact] = useAddContactMutation();
+  const { data: contacts } = useGetContactsQuery();
+
+  const submitForm = ({ name, number }, { resetForm }) => {
+    const isInclude = contacts.find(
+      person => person.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isInclude) {
+      toast(` ${name} is already in contacts.`);
+      return;
+    }
+
+    try {
+      addContact({ name, phone: number });
+      resetForm();
+    } catch (error) {
+      toast(error.message);
+    }
+  };
+
   return (
     <Formik initialValues={{ name: '', number: '' }} onSubmit={submitForm}>
       <FormBox>
@@ -35,8 +60,4 @@ export const PhoneBookForm = ({ submitForm }) => {
       </FormBox>
     </Formik>
   );
-};
-
-PhoneBookForm.propTypes = {
-  submitForm: PropTypes.func,
 };

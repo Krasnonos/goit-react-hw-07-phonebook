@@ -1,24 +1,19 @@
-import PropTypes from 'prop-types';
 import { ContactListItem } from '../ContactsListItem/ContactsListItem';
+import { useGetContactsQuery } from '../../redux/contactsApi';
 import { Title, Box, ContactsBox } from './ContactList.styled';
 
-export const ContactList = ({ contactsInfo, delateContact }) => {
+export const ContactList = () => {
+  const { data: contacts } = useGetContactsQuery();
+
   return (
     <Box>
       <Title>Contacts</Title>
       <ContactsBox>
-        {contactsInfo.map(item => (
-          <ContactListItem
-            item={item}
-            key={item.id}
-            delateContact={delateContact}
-          />
-        ))}
+        {contacts &&
+          contacts.map(contact => (
+            <ContactListItem contact={contact} key={contact.id} />
+          ))}
       </ContactsBox>
     </Box>
   );
-};
-
-ContactList.propTypes = {
-  contactsInfo: PropTypes.arrayOf(PropTypes.shape),
 };

@@ -4,15 +4,12 @@ import {
   useAddContactMutation,
   useGetContactsQuery,
 } from '../../redux/contactsApi';
-import {
-  FormBox,
-  InputName,
-  InputBox,
-  SubmitBtn,
-} from './PhoneBookForm.styled';
+import { FormBox, InputName, InputBox, BtnWrap } from './PhoneBookForm.styled';
+import { LoadingButton } from '@mui/lab';
+import SendIcon from '@mui/icons-material/Send';
 
 export const PhoneBookForm = () => {
-  const [addContact] = useAddContactMutation();
+  const [addContact, { isLoading }] = useAddContactMutation();
   const { data: contacts } = useGetContactsQuery();
 
   const submitForm = ({ name, number }, { resetForm }) => {
@@ -56,7 +53,18 @@ export const PhoneBookForm = () => {
             required
           />
         </InputName>
-        <SubmitBtn type="submit">Add constact</SubmitBtn>
+        <BtnWrap>
+          <LoadingButton
+            type="submit"
+            endIcon={<SendIcon />}
+            loading={isLoading}
+            loadingPosition="end"
+            variant="contained"
+            disabled={isLoading}
+          >
+            Add constact
+          </LoadingButton>
+        </BtnWrap>
       </FormBox>
     </Formik>
   );

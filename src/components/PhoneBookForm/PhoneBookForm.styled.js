@@ -17,25 +17,14 @@ export const InputName = styled.label`
 `;
 
 export const InputBox = styled(Field)`
-  width: 300px;
+  width: 400px;
+  height: 25px;
   margin-top: 5px;
   padding: 5px;
   border: none;
   border-radius: 7px;
 `;
 
-export const SubmitBtn = styled.button`
-  width: 140px;
+export const BtnWrap = styled.div`
   margin-top: 15px;
-  padding: 4px;
-  color: black;
-  background-color: white;
-  border: 2px solid green;
-  border-radius: 5px;
-
-  :hover,
-  :focus {
-    color: white;
-    background-color: green;
-  }
 `;
